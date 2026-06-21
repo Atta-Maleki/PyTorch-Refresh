@@ -4,7 +4,7 @@ Hours: 2
 
 I Learned:
 
-# PyTorch Learning Journey
+# PyTorch Fundamentals
 
 ## Week 1 - Day 1
 
@@ -246,13 +246,173 @@ x.permute(0,3,1,2)
 6. Understanding tensor shapes is critical for debugging models.
 
 ---
+Date: June 14th 2026
 
-## Next Topic
+Hours: less than 1
 
-Autograd:
+I Learned:
+# PyTorch_Autograd
+---
+## week 1 day 2
+## Autograd
 
-* Computational graphs
-* requires_grad
-* backward()
-* gradients
-* automatic differentiation
+### What is Autograd?
+
+Autograd is PyTorch's automatic differentiation engine.
+
+It automatically tracks operations performed on tensors and computes gradients using backpropagation. This eliminates the need to manually derive and implement derivatives for machine learning models.
+
+Autograd is one of the core features that makes PyTorch suitable for deep learning.
+
+---
+
+### Why Autograd Exists
+
+Machine learning models learn by minimizing error.
+
+To reduce error, the model needs to know how changing a parameter affects the final output. This information is provided by gradients.
+
+A gradient represents the rate of change of an output with respect to an input or parameter.
+
+Autograd automatically computes these gradients.
+
+---
+
+### requires_grad
+
+To enable gradient tracking:
+
+```python
+x = torch.tensor(3.0, requires_grad=True)
+```
+
+Setting `requires_grad=True` tells PyTorch to track all operations involving the tensor and build a computation graph.
+
+Without this flag, PyTorch treats the tensor as regular data and does not calculate gradients.
+
+---
+
+### Computation Graph
+
+When operations are performed on tensors with gradient tracking enabled, PyTorch automatically constructs a computation graph.
+
+Example:
+
+```python
+x = torch.tensor(3.0, requires_grad=True)
+
+y = x**2
+```
+
+Conceptually:
+
+```text
+x
+↓
+square
+↓
+y
+```
+
+The graph stores the sequence of operations required for gradient computation.
+
+---
+
+### Backward Pass
+
+Gradients are calculated using:
+
+```python
+y.backward()
+```
+
+Calling `backward()` tells PyTorch to traverse the computation graph in reverse and compute gradients using the chain rule.
+
+This process is known as backpropagation.
+
+---
+
+### Accessing Gradients
+
+After calling:
+
+```python
+y.backward()
+```
+
+the gradient can be accessed through:
+
+```python
+x.grad
+```
+
+Example:
+
+```python
+x = torch.tensor(3.0, requires_grad=True)
+
+y = x**2
+
+y.backward()
+
+print(x.grad)
+```
+
+Output:
+
+```python
+tensor(6.)
+```
+
+Because:
+
+```text
+d(x²)/dx = 2x
+```
+
+and when `x = 3`:
+
+```text
+2 × 3 = 6
+```
+
+---
+
+### Gradient Accumulation
+
+PyTorch accumulates gradients by default.
+
+Multiple calls to:
+
+```python
+backward()
+```
+
+add gradients to existing values instead of replacing them.
+
+Because of this, training loops typically contain:
+
+```python
+optimizer.zero_grad()
+```
+
+to clear previously stored gradients before computing new ones.
+
+---
+
+### Key Concepts Learned
+
+* Autograd is PyTorch's automatic differentiation system.
+* Gradients are required for model learning.
+* `requires_grad=True` enables gradient tracking.
+* PyTorch automatically builds computation graphs.
+* `backward()` computes gradients through backpropagation.
+* Gradients are stored in the `.grad` attribute.
+* Gradients accumulate unless they are manually reset.
+
+---
+
+### Key Takeaway
+
+Autograd is the mechanism that allows PyTorch models to learn. Instead of manually computing derivatives, PyTorch tracks tensor operations, builds computation graphs, and automatically calculates gradients needed for optimization.
+****
