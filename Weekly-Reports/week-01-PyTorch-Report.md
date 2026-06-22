@@ -416,3 +416,12 @@ to clear previously stored gradients before computing new ones.
 
 Autograd is the mechanism that allows PyTorch models to learn. Instead of manually computing derivatives, PyTorch tracks tensor operations, builds computation graphs, and automatically calculates gradients needed for optimization.
 ****
+
+
+---
+
+## Week1 Day 3
+all the notes about the mini project of tensors and mini project of practicing around them is uploaded in the pytorch-playground at the current repository.
+
+---
+
